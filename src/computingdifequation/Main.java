@@ -18,7 +18,11 @@ public class Main {
      */
     public static void main(String[] args) {
         Eiler eiler = new Eiler();  
-        eiler.computing();
+        //eiler.computing();
+        
+        RungeKutti rk = new RungeKutti();
+        rk.computing();
+        //System.out.println((double)Math.round((1+0.1)*10)/10);//training
     }
     
 }
