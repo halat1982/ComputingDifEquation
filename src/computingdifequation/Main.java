@@ -21,8 +21,10 @@ public class Main {
         //eiler.computing();
         
         RungeKutti rk = new RungeKutti();
-        rk.computing();
-        //System.out.println((double)Math.round((1+0.1)*10)/10);//training
+        //rk.computing();
+        
+        Task4 t4 = new Task4();
+        t4.computing();
     }
     
 }

@@ -23,7 +23,7 @@ public class RungeKutti {
     public void computing(){           
         int i = 0;
         double tx, y, ky1, ky2, ky3, ky4, fxy, dy, z, dz, fxz,kz1, kz2, kz3, kz4;
-        for(double x=start; x<=finish; x=(double)Math.round((x+h)*10)/10){
+        for(double x=start; x<=finish; x=(double)Math.round((x+h)*100)/100){
             System.out.println("Step "+i);
             tx = x; 
             fxy = getFuncResultXY(x,y0); //z'= ...
@@ -58,7 +58,7 @@ public class RungeKutti {
             dz = (kz1 + 2*kz2 + 2*kz3 +kz4)/6;
             y0 = y0 + dy;
             z0 = z0 + dz;
-            System.out.println(dy+" y0 ="+y0+" "+dz+" z0="+z0);
+            //System.out.println(dy+" y0 ="+y0+" "+dz+" z0="+z0);
             //System.out.println("x="+x);
             i++;
         }

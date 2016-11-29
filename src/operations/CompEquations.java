@@ -20,4 +20,5 @@ public class CompEquations {
     public static double computingBeta(double c, double d){
         return c + d*Main.N;
     }
+    
 }
