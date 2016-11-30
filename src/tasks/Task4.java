@@ -26,7 +26,7 @@ public class Task4 {
    int T = (int) Math.round(tMax/tau)+1; //Строки       
    public void computing(){
        //System.out.println("Alpha= "+alpha+" Beta= "+beta);       
-       System.out.println("Explicit method"+X+" "+T);
+       System.out.println("Explicit method \n");
        double[][] grid = AuxiliaryComputing.initZeroMatrix(X, T);       
        fillBottom(grid);
        fillLeft(grid);
@@ -62,12 +62,12 @@ public class Task4 {
       }
    }
    
-   private void fillExplicit(double[][] grid){
-       int i = T-2;
-       for(int j=(int)xMin+1; j<X-1; j++){
-        grid[i][j] =1;   
+   private void fillExplicit(double[][] grid){       
+       for(int i=T-2; i>=0; i--){
+        for(int j=(int)xMin+1; j<X-1; j++){
+            grid[i][j] = (grid[i+1][j]/tau + (grid[i+1][j+1]-2*grid[i+1][j] + grid[i+1][j-1])/Math.pow(h,2))*tau;   
+        }
        }
-       
    }
    
    private double u0t(double t){
