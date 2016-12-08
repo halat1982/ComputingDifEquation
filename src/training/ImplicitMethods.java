@@ -3,44 +3,39 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tasks;
-
+package training;
 import operations.AuxiliaryComputing;
-import operations.CompEquations;
-
+//import operations.CompEquations;
 /**
  *
  * @author halat
  */
-public class Task4 {
-   double a = 2, b=0.1,c=1, d=0.15;
-   double alpha = CompEquations.computingAlpha(a, b);
-   double beta = CompEquations.computingBeta(c, d);
-   double tau = 0.02;
-   double h = 0.1;    
-   double tMin = 0;
-   double tMax = 0.2;
-   double xMin = 0;
-   double xMax = 1;
-   int X = (int) Math.round(xMax/h)+1; //Столбцы 11
-   int T = (int) Math.round(tMax/tau)+1; //Строки  11
-   int r = 10000;
-   public void computing(){
-       //System.out.println("Alpha= "+alpha+" Beta= "+beta);       
+public class ImplicitMethods {
+    private final double xMin = 0;
+    private final double xMax = 1;
+    private final double tMin = 0;
+    private final double tMax = 0.08;
+    private final double h = 0.2;
+    private final double tau = 0.02;
+    int X = (int) Math.round(xMax/h)+1; //Столбцы 6
+    int T = (int) Math.round(tMax/tau)+1; //Строки 5 
+    int round = 10000;
+    
+    public void computing(){       
        System.out.println("Explicit method \n");
        double[][] grid = AuxiliaryComputing.initZeroMatrix(X, T);       
        fillBottom(grid);
        fillLeft(grid);
        fillRight(grid);
-       fillExplicit(grid);
-       AuxiliaryComputing.showMatrix(grid);
+       fillExplicit(grid);         
+       AuxiliaryComputing.showMatrix(grid); //Show matrix in explicit method
        System.out.println("Implicit method \n");
        grid = AuxiliaryComputing.initZeroMatrix(X, T);
        fillBottom(grid);
        fillLeft(grid);
        fillRight(grid);
        fillImplicit(grid);
-       AuxiliaryComputing.showMatrix(grid); 
+       AuxiliaryComputing.showMatrix(grid);      
    }
    
    private void fillBottom(double[][] grid){
@@ -67,33 +62,28 @@ public class Task4 {
       }
    }
    
-   private void fillExplicit(double[][] grid){  
-          //int i = 9;
-          for(int i=9; i>=0; i--){
-          int t=1;
-          for(int j=1; j<10; j++){
+   private void fillExplicit(double[][] grid){ 
+       int t = 0;
+       for(int i=T-2; i>=0; i--){           
+          for(int j=(int)xMin+1; j<X-1; j++){
               //System.out.print("t= "+t*tau+" ");
-            grid[i][j] = grid[i+1][j] + (tau/(alpha*Math.pow(h,2)))*(grid[i+1][j+1]-2*grid[i+1][j] + grid[i+1][j-1])+tau*fxt(j*h,t*tau);  // 
-            t++;
-          }
-           //System.out.println("");
-          
+            grid[i][j] = (grid[i+1][j]/tau + (grid[i+1][j+1]-2*grid[i+1][j] + grid[i+1][j-1])/Math.pow(h,2))*tau;   
+          }           
+          t++;
        }
    }
    
    private void fillImplicit(double[][] grid){      
       double[][] matrix = fillEquationMatrix(X);
-      double[][] f = new double[X][1]; 
+      double[][] f = new double[X][1]; //= {{0.02},{-0.02},{-0.08},{-0.18},{-0.32},{0.52}};
        
       for(int i = T-2; i>=0; i--){
-          int t=1;
         for (int k = 0; k < X; k++) {
             if(k==0 || k==X-1){
                 f[k][0] = grid[i][k];
                 continue;
             }            
-           f[k][0]= -grid[i+1][k]-tau*fxt(k*h,t*tau);//
-           t++;
+           f[k][0]= -grid[i+1][k];
         } 
         //AuxiliaryComputing.showMatrix(f);
         double [][] res = gauss(matrix, f);
@@ -106,8 +96,8 @@ public class Task4 {
   
    private double[][] fillEquationMatrix(int X){
       double[][] matrix = AuxiliaryComputing.initZeroMatrix(X, X);
-      double k1 = tau/(alpha*Math.pow(h, 2));
-      double k2 = -1*((Math.pow(h, 2)*alpha+2*tau)/(Math.pow(h, 2)*alpha));
+      double k1 = tau/Math.pow(h, 2);
+      double k2 = -1*((Math.pow(h, 2)+2*tau)/Math.pow(h, 2));
       matrix[0][0] = 1;
       matrix[X-1][X-1] = 1;
       int j=0;
@@ -128,26 +118,35 @@ public class Task4 {
       // AuxiliaryComputing.showMatrix(matrix);
       return matrix;   
     }    
+       
+      
+   
    
    private double u0t(double t){
-    return Math.pow(Math.E,alpha*t);
+    return t;
     }
    
    private double u1t(double t){
-       return Math.pow(Math.E, alpha*(t-1));
+       return 0.5+t;
    }
    
    private double ux0(double x){
-       return Math.pow(Math.E, alpha*-x);
+       return Math.pow(x, 2)/2;
    }
    
-   private double fxt(double x, double t){
-       return beta*(Math.pow(x,2)+Math.pow(t, 2));
-   }
- 
    public double[][] gauss(double[][] A, double[][] f){
-        double[][] q = toTriangleMatrix(A, f);             
-        double[][] res = computingX(q, f);              
+        //System.out.println("STARTING METHOD GAUSS\n Initial matrix A\n");
+        //AuxiliaryComputing.showMatrix(A);
+        //System.out.println("\nInitial vector f\n");
+        //AuxiliaryComputing.showMatrix(f);
+        //System.out.println("\nTriangle matrix:\n");
+        double[][] a = toTriangleMatrix(A, f);
+        //AuxiliaryComputing.showMatrix(a);
+        //System.out.println("\nNew vector f\n");
+        //AuxiliaryComputing.showMatrix(f);        
+        double[][] res = computingX(a, f);
+        //System.out.println("\nResult vector x:\n");
+        //AuxiliaryComputing.showMatrix(res);        
         
         return res;
     }
@@ -185,12 +184,10 @@ public class Task4 {
             }
             x[i][0] = temp;            
             x[i][0] += f[i][0]; 
-           
+            //System.out.println("x["+i+"][0] = "+x[i][0]);
+            //System.out.println("x[1][0] = "+x[1][0]);
+            //System.out.println("");
         }       
         return x;
     }
-   
-   
-   
-   
 }

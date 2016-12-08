@@ -5,6 +5,7 @@
  */
 package computingdifequation;
 import tasks.*;
+import training.*;
 /**
  *
  * @author halat
@@ -24,7 +25,10 @@ public class Main {
         //rk.computing();
         
         Task4 t4 = new Task4();
-        t4.computing();        
+        
+        t4.computing();    
+        //ImplicitMethods imp = new ImplicitMethods();
+        //imp.computing();
     }
     
 }

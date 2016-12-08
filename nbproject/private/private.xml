@@ -5,10 +5,9 @@
         <group>
             <file>file:/home/halat/NetBeansProjects/ComputingDifEquation/src/computingdifequation/Main.java</file>
             <file>file:/home/halat/NetBeansProjects/ComputingDifEquation/src/operations/CompEquations.java</file>
+            <file>file:/home/halat/NetBeansProjects/ComputingDifEquation/src/training/ImplicitMethods.java</file>
             <file>file:/home/halat/NetBeansProjects/ComputingDifEquation/src/operations/AuxiliaryComputing.java</file>
             <file>file:/home/halat/NetBeansProjects/ComputingDifEquation/src/tasks/Task4.java</file>
-            <file>file:/home/halat/NetBeansProjects/ComputingDifEquation/src/tasks/Eiler.java</file>
-            <file>file:/home/halat/NetBeansProjects/ComputingDifEquation/src/tasks/RungeKutti.java</file>
         </group>
     </open-files>
 </project-private>
